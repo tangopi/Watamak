@@ -34,7 +34,8 @@ namespace Watamak
         public StorageFile baseFile { get; private set; }
         public StorageFile watermarkFile { get; private set; }
         public CanvasBitmap watermarkCanvas { get; private set; }
-
+         double ACTWIDTH;
+         double ACTHEIGHT;
         public MainPage()
         {
             this.InitializeComponent();
@@ -52,7 +53,7 @@ namespace Watamak
         async void SaveTheForest()
         {
             var displayInformation = DisplayInformation.GetForCurrentView();
-            var imageSize = new Size(512, 512);
+            var imageSize = new Size(ACTWIDTH, ACTHEIGHT);
             canvasOfAvaga.Measure(imageSize);
             canvasOfAvaga.UpdateLayout();
             canvasOfAvaga.Arrange(new Rect(0, 0, imageSize.Width, imageSize.Height));
@@ -108,13 +109,15 @@ namespace Watamak
             baseFile = file;
             baseCanvas = await CanvasBitmap.LoadAsync(canvasOfAvaga.Device, await baseFile.OpenReadAsync(), 96, CanvasAlphaMode.Premultiplied);
             canvasOfAvaga.Invalidate();
+            ACTHEIGHT = canvasOfAvaga.ActualHeight;
+            ACTWIDTH = canvasOfAvaga.ActualWidth;
         }
 
         private void CanvasOfAvaga_Draw(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args)
         {
             args.DrawingSession.Clear(Color.FromArgb(255, 190, 210, 39));
             if (baseCanvas != null) {
-                args.DrawingSession.DrawImage(baseCanvas,new Rect(0,0,512,512));
+                args.DrawingSession.DrawImage(baseCanvas,new Rect(0,0,ACTWIDTH,ACTHEIGHT));
                     }
             if(watermarkCanvas != null)
             {
