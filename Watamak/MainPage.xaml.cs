@@ -43,6 +43,8 @@ namespace Watamak
             BrowseBaseButton.Click += BrowseBaseButton_Click;
             BrowseWatermark.Click += BrowseWatermark_Click;
             SaveWatermark.Click += SaveWatermark_Click1;
+
+            
         }
 
         private void SaveWatermark_Click1(object sender, RoutedEventArgs e)
@@ -60,6 +62,7 @@ namespace Watamak
 
             var renderTargetBitmap = new RenderTargetBitmap();
             await renderTargetBitmap.RenderAsync(canvasOfAvaga, Convert.ToInt32(imageSize.Width), Convert.ToInt32(imageSize.Height));
+            //await renderTargetBitmap.RenderAsync(canvasOfAvaga, Convert.ToInt32(ACTWIDTH), Convert.ToInt32(ACTHEIGHT));
 
             var pixelBuffer = await renderTargetBitmap.GetPixelsAsync();
             var picker = new FileSavePicker();
@@ -109,8 +112,9 @@ namespace Watamak
             baseFile = file;
             baseCanvas = await CanvasBitmap.LoadAsync(canvasOfAvaga.Device, await baseFile.OpenReadAsync(), 96, CanvasAlphaMode.Premultiplied);
             canvasOfAvaga.Invalidate();
-            ACTHEIGHT = canvasOfAvaga.ActualHeight;
-            ACTWIDTH = canvasOfAvaga.ActualWidth;
+
+            ACTHEIGHT = baseCanvas.SizeInPixels.Height;
+            ACTWIDTH = baseCanvas.SizeInPixels.Width;
         }
 
         private void CanvasOfAvaga_Draw(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args)
@@ -123,23 +127,7 @@ namespace Watamak
             {
                 args.DrawingSession.DrawImage(watermarkCanvas, new Rect(128, 128, 128, 128));
             }
-        }
-
-        public void Wachamak()
-        {
-            //read image
-            BitmapImage image1 = new BitmapImage(uriSource: new Uri("ms-appx:///Assets/pinmap.png")); //("ms-appx:///Assets/pinmap.png");
-            BitmapImage image2 = new BitmapImage(uriSource: new Uri("ms-appx:///Assets/pinmap.png"));
-
-            //prepare new image
-            WriteableBitmap induced = new WriteableBitmap(image1.DecodePixelWidth, image2.DecodePixelHeight + image1.DecodePixelHeight);
-            //RenderTargetBitmap
-
-            //save image
-            //bmpPic.Save(imgFileStream, ImageFormat.Png);
-            //induced.f
-        }
-
+        }  
     }
 }
 
