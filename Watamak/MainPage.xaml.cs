@@ -116,7 +116,7 @@ namespace Watamak
             ACTHEIGHT = baseCanvas.SizeInPixels.Height;
             ACTWIDTH = baseCanvas.SizeInPixels.Width;
         }
-        //like this?
+        //like this? no?
         private void CanvasOfAvaga_Draw(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args)
         {
             args.DrawingSession.Clear(Color.FromArgb(255, 190, 210, 39));
